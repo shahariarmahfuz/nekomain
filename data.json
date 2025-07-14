@@ -1,0 +1,422 @@
+{
+    "users": [
+        {
+            "id": 1,
+            "username": "1234567",
+            "password": "scrypt:32768:8:1$DWDBL6PNuoSO5ENT$26ed6a34245245a2f4bf07b9c97eb20a6ca2e117cdd242bcddccde5aab4d8bc566e4a2aeb7534fa09aaa0a83e203c7e1ea17fd3a475b0734b16d6ecb989b7365",
+            "is_admin": false,
+            "is_active": true
+        },
+        {
+            "id": 2,
+            "username": "admin",
+            "password": "scrypt:32768:8:1$KXH20JYsU0gn9bKs$78e23926838fc7e6262297c2a359e614523d469d29cc06464c1a03b2cbe86e0cb511a914cd400a8666d05f19ae0196777d7d67527d2c2ede062c4b954780bdc4",
+            "is_admin": true,
+            "read_notification_ids": [
+                1,
+                5,
+                8
+            ],
+            "usage_tracking": {
+                "notes": {
+                    "count": 1,
+                    "reset_time": "2025-07-08T13:30:44.104943"
+                },
+                "facebook_downloader": {
+                    "count": 8,
+                    "reset_time": "2025-07-08T14:37:54.121388"
+                },
+                "instagram_downloader": {
+                    "count": 4,
+                    "reset_time": "2025-07-09T13:23:09.882510"
+                }
+            }
+        },
+        {
+            "id": 3,
+            "username": "asdfghjkl",
+            "password": "scrypt:32768:8:1$8an2UP56OP89aHRa$201f57619a5d9287ce1597e017ad114aab2446994e8b2a0923fcbb7a885f405ae45c443df79586638e62b65bbf12baf6cb75e2b2bf10f5664ed0a1f8f40c8587",
+            "is_admin": false
+        },
+        {
+            "id": 4,
+            "username": "Iheiu9ezu eize",
+            "password": "scrypt:32768:8:1$PF9xsXSNEpNyBs8G$ef749a2b76f84362ad036b90e08df74d9be7e1a215f6d0b54394f29e3b2cef40207bb14f6387aab744eb642a9741a87b6fc97353e46a5c58b387fb9bbd799109",
+            "is_admin": false
+        },
+        {
+            "id": 5,
+            "username": "Bokahshshs",
+            "password": "scrypt:32768:8:1$rWnvtC0n3doicQN8$6d87f8af4526b68a6824023e1a62742c3f3aa7fcdb1f25cc92bb751ea77d45e52294ea6efc83dab31a567be0a06f17d0b72e2c7b9216d986c26e695cb8671f5c",
+            "is_admin": false,
+            "read_notification_ids": [
+                1,
+                5,
+                6
+            ]
+        },
+        {
+            "id": 6,
+            "username": "9juv9u9uuc",
+            "password": "scrypt:32768:8:1$qeygWe3RclN0DDmS$032773f8a217671cfb81553becc66b3ae2ce1a448b7dd039d6e3243987b0e70fe7204a7b6165378a80fdff6c495adb43b67c31a5c21c1343feb5375e889016c5",
+            "is_admin": false,
+            "read_notification_ids": [
+                1,
+                5,
+                7,
+                8
+            ],
+            "usage_tracking": {
+                "notes": {
+                    "count": 3,
+                    "reset_time": "2025-07-08T13:07:34.992273"
+                }
+            }
+        },
+        {
+            "id": 7,
+            "username": "shahariarvaiya1@outlook.com",
+            "password": "scrypt:32768:8:1$1qLHIVzy6OoNbs69$de27465bcb59e0e5f7551980f5d7c14e284c692adfb690e90d6bbfd42fc80e89810d5d72fb7b8e0a10ec9609ed0514212e08d5a5f561bc3c6e024ee84d6dad77",
+            "is_admin": false,
+            "registration_date": "2025-07-08 13:31:53",
+            "is_active": true,
+            "read_notification_ids": [
+                1,
+                5,
+                8,
+                9
+            ],
+            "usage_tracking": {},
+            "display_name": "Mahfuz "
+        },
+        {
+            "id": 8,
+            "username": "Bro123448526162",
+            "display_name": "Bro123448526162",
+            "password": "scrypt:32768:8:1$frC2RL4pelXE3XiZ$9bad8e410c94bbb10bd5524a367e648fb99b4e20351f7a31e28d4e3071b29717b81d14a4f0095f3f607a32eedbcd68f47d4ce05c4c99efbd7b3db2aeefe5532b",
+            "is_admin": false,
+            "registration_date": "2025-07-08 13:50:39",
+            "is_active": true,
+            "read_notification_ids": [
+                8,
+                1,
+                10,
+                5
+            ],
+            "usage_tracking": {}
+        },
+        {
+            "id": 9,
+            "username": "2",
+            "display_name": "2",
+            "password": "scrypt:32768:8:1$ZxXsWWo7HEq7GxjT$e5bcd79c4230d4d3e80ac8b7f988fdf92178c02cbaaec27f9c01840aa9fba225e23f32ce38eaccaae4bd7d3f157182aad8082d94a07fdd85e06965607fb58bd4",
+            "is_admin": false,
+            "registration_date": "2025-07-08 13:53:47",
+            "is_active": true,
+            "read_notification_ids": [],
+            "usage_tracking": {}
+        },
+        {
+            "id": 10,
+            "username": "\u098f\u0987\u09af\u09c7",
+            "display_name": "\u098f\u0987\u09af\u09c7",
+            "password": "scrypt:32768:8:1$NRHcaprFAXiK6WFh$0ebb54693e6afdbee1e20f5f342808f7766802c0366fc46490ea4801d238a4b4fc0608e23199dbba1ff700d64aa829eee356678383d938da9ba784a6bc523db2",
+            "is_admin": false,
+            "registration_date": "2025-07-08 13:55:57",
+            "is_active": true,
+            "read_notification_ids": [
+                8,
+                1,
+                12,
+                5
+            ],
+            "usage_tracking": {}
+        },
+        {
+            "id": 11,
+            "username": "Add d",
+            "display_name": "Add d",
+            "password": "scrypt:32768:8:1$AJm30AaKtsHMKCNz$d2cf7417a9051e9bb1589c9dcbc08b219c5c646f72c5157129f31a3bb783c13ec896550835497189a162bf585483d7d584ea9089054748acf41dd07f1729d52a",
+            "is_admin": false,
+            "registration_date": "2025-07-08 14:28:32",
+            "is_active": true,
+            "read_notification_ids": [],
+            "usage_tracking": {
+                "facebook_downloader": {
+                    "count": 15,
+                    "reset_time": "2025-07-08T14:28:54.048298"
+                },
+                "notes": {
+                    "count": 2,
+                    "reset_time": "2025-07-08T15:08:20.580279"
+                },
+                "instagram_downloader": {
+                    "count": 4,
+                    "reset_time": "2025-07-08T15:15:09.753676"
+                }
+            }
+        },
+        {
+            "id": 12,
+            "username": "\u09b8\u09c79\u0993\u09af\u09bc\u09be\u0989\u0987\u09a8\u09c7\u09ac\u09c7\u09ac\u09c7",
+            "display_name": "\u09b8\u09c79\u0993\u09af\u09bc\u09be\u0989\u0987\u09a8\u09c7\u09ac\u09c7\u09ac\u09c7",
+            "password": "scrypt:32768:8:1$WCV9ck5plKDXUSj7$9f5576e50bf06f553b68274dfdf31e4c7e1c09447ddb8a99a4983d35d486056fb295b27b3866eb389b41a6adcee34e1c6dfbcbd8c88f0016c8980d6b56f0ce1f",
+            "is_admin": false,
+            "registration_date": "2025-07-08 15:27:53",
+            "is_active": true,
+            "read_notification_ids": [],
+            "usage_tracking": {
+                "instagram_downloader": {
+                    "count": 1,
+                    "reset_time": "2025-07-08T15:28:28.262825"
+                }
+            }
+        },
+        {
+            "id": 13,
+            "username": "Bro",
+            "display_name": "Bro",
+            "password": "scrypt:32768:8:1$lJdDDQpzKmeGsAwO$b8b026f5ea3092e55c79b6e7dbb24cf0d2da2ccfbd06525a98b55f64d5f6138c029c96a8bffc42b7ddbedc0e7ed986487b50841016e0ab1d0d1ef2923b55e746",
+            "is_admin": false,
+            "registration_date": "2025-07-09 12:04:04",
+            "is_active": true,
+            "read_notification_ids": [
+                1,
+                5,
+                8,
+                15
+            ],
+            "usage_tracking": {}
+        }
+    ],
+    "notifications": [
+        {
+            "id": 1,
+            "message": "I'm admin telling \ud83d\ude12",
+            "user_id": null,
+            "is_global": true
+        },
+        {
+            "id": 2,
+            "message": "Bro?",
+            "user_id": 3,
+            "is_global": false
+        },
+        {
+            "id": 3,
+            "message": "Yo",
+            "user_id": 4,
+            "is_global": false
+        },
+        {
+            "id": 4,
+            "message": "Code available",
+            "user_id": 4,
+            "is_global": false
+        },
+        {
+            "id": 5,
+            "message": "Chalo",
+            "user_id": null,
+            "is_global": true,
+            "timestamp": "2025-07-08 10:03:42",
+            "sender": "admin",
+            "type": "admin"
+        },
+        {
+            "id": 6,
+            "message": "\u09b8\u09cd\u09ac\u09be\u0997\u09a4\u09ae, Bokahshshs! \u0986\u09ae\u09be\u09a6\u09c7\u09b0 \u0993\u09df\u09c7\u09ac\u09b8\u09be\u0987\u099f\u09c7 \u0986\u09aa\u09a8\u09be\u09b0 \u0985\u09cd\u09af\u09be\u0995\u09be\u0989\u09a8\u09cd\u099f \u09b8\u09ab\u09b2\u09ad\u09be\u09ac\u09c7 \u09a4\u09c8\u09b0\u09bf \u09b9\u09df\u09c7\u099b\u09c7\u0964",
+            "user_id": 5,
+            "is_global": false,
+            "timestamp": "2025-07-08 12:56:05",
+            "sender": "System",
+            "type": "system"
+        },
+        {
+            "id": 7,
+            "message": "\u09b8\u09cd\u09ac\u09be\u0997\u09a4\u09ae, 9juv9u9uuc! \u0986\u09ae\u09be\u09a6\u09c7\u09b0 \u0993\u09df\u09c7\u09ac\u09b8\u09be\u0987\u099f\u09c7 \u0986\u09aa\u09a8\u09be\u09b0 \u0985\u09cd\u09af\u09be\u0995\u09be\u0989\u09a8\u09cd\u099f \u09b8\u09ab\u09b2\u09ad\u09be\u09ac\u09c7 \u09a4\u09c8\u09b0\u09bf \u09b9\u09df\u09c7\u099b\u09c7\u0964",
+            "user_id": 6,
+            "is_global": false,
+            "timestamp": "2025-07-08 12:56:38",
+            "sender": "System",
+            "type": "system"
+        },
+        {
+            "id": 8,
+            "message": "Bro?",
+            "user_id": null,
+            "is_global": true,
+            "timestamp": "2025-07-08 13:15:04",
+            "sender": "System",
+            "type": "system"
+        },
+        {
+            "id": 9,
+            "message": "\u09b8\u09cd\u09ac\u09be\u0997\u09a4\u09ae, shahariarvaiya1@outlook.com! \u0986\u09ae\u09be\u09a6\u09c7\u09b0 \u0993\u09df\u09c7\u09ac\u09b8\u09be\u0987\u099f\u09c7 \u0986\u09aa\u09a8\u09be\u09b0 \u0985\u09cd\u09af\u09be\u0995\u09be\u0989\u09a8\u09cd\u099f \u09b8\u09ab\u09b2\u09ad\u09be\u09ac\u09c7 \u09a4\u09c8\u09b0\u09bf \u09b9\u09df\u09c7\u099b\u09c7\u0964",
+            "user_id": 7,
+            "is_global": false,
+            "timestamp": "2025-07-08 13:31:53",
+            "sender": "System",
+            "type": "system"
+        },
+        {
+            "id": 10,
+            "message": "\u09b8\u09cd\u09ac\u09be\u0997\u09a4\u09ae, Bro123448526162! \u0986\u09ae\u09be\u09a6\u09c7\u09b0 \u0993\u09df\u09c7\u09ac\u09b8\u09be\u0987\u099f\u09c7 \u0986\u09aa\u09a8\u09be\u09b0 \u0985\u09cd\u09af\u09be\u0995\u09be\u0989\u09a8\u09cd\u099f \u09b8\u09ab\u09b2\u09ad\u09be\u09ac\u09c7 \u09a4\u09c8\u09b0\u09bf \u09b9\u09df\u09c7\u099b\u09c7\u0964",
+            "user_id": 8,
+            "is_global": false,
+            "timestamp": "2025-07-08 13:50:39",
+            "sender": "System",
+            "type": "system"
+        },
+        {
+            "id": 11,
+            "message": "\u09b8\u09cd\u09ac\u09be\u0997\u09a4\u09ae, 2! \u0986\u09ae\u09be\u09a6\u09c7\u09b0 \u0993\u09df\u09c7\u09ac\u09b8\u09be\u0987\u099f\u09c7 \u0986\u09aa\u09a8\u09be\u09b0 \u0985\u09cd\u09af\u09be\u0995\u09be\u0989\u09a8\u09cd\u099f \u09b8\u09ab\u09b2\u09ad\u09be\u09ac\u09c7 \u09a4\u09c8\u09b0\u09bf \u09b9\u09df\u09c7\u099b\u09c7\u0964",
+            "user_id": 9,
+            "is_global": false,
+            "timestamp": "2025-07-08 13:53:47",
+            "sender": "System",
+            "type": "system"
+        },
+        {
+            "id": 12,
+            "message": "\u09b8\u09cd\u09ac\u09be\u0997\u09a4\u09ae, \u098f\u0987\u09af\u09c7! \u0986\u09ae\u09be\u09a6\u09c7\u09b0 \u0993\u09df\u09c7\u09ac\u09b8\u09be\u0987\u099f\u09c7 \u0986\u09aa\u09a8\u09be\u09b0 \u0985\u09cd\u09af\u09be\u0995\u09be\u0989\u09a8\u09cd\u099f \u09b8\u09ab\u09b2\u09ad\u09be\u09ac\u09c7 \u09a4\u09c8\u09b0\u09bf \u09b9\u09df\u09c7\u099b\u09c7\u0964",
+            "user_id": 10,
+            "is_global": false,
+            "timestamp": "2025-07-08 13:55:57",
+            "sender": "System",
+            "type": "system"
+        },
+        {
+            "id": 13,
+            "message": "\u09b8\u09cd\u09ac\u09be\u0997\u09a4\u09ae, Add d! \u0986\u09ae\u09be\u09a6\u09c7\u09b0 \u0993\u09df\u09c7\u09ac\u09b8\u09be\u0987\u099f\u09c7 \u0986\u09aa\u09a8\u09be\u09b0 \u0985\u09cd\u09af\u09be\u0995\u09be\u0989\u09a8\u09cd\u099f \u09b8\u09ab\u09b2\u09ad\u09be\u09ac\u09c7 \u09a4\u09c8\u09b0\u09bf \u09b9\u09df\u09c7\u099b\u09c7\u0964",
+            "user_id": 11,
+            "is_global": false,
+            "timestamp": "2025-07-08 14:28:32",
+            "sender": "System",
+            "type": "system"
+        },
+        {
+            "id": 14,
+            "message": "\u09b8\u09cd\u09ac\u09be\u0997\u09a4\u09ae, \u09b8\u09c79\u0993\u09af\u09bc\u09be\u0989\u0987\u09a8\u09c7\u09ac\u09c7\u09ac\u09c7! \u0986\u09ae\u09be\u09a6\u09c7\u09b0 \u0993\u09df\u09c7\u09ac\u09b8\u09be\u0987\u099f\u09c7 \u0986\u09aa\u09a8\u09be\u09b0 \u0985\u09cd\u09af\u09be\u0995\u09be\u0989\u09a8\u09cd\u099f \u09b8\u09ab\u09b2\u09ad\u09be\u09ac\u09c7 \u09a4\u09c8\u09b0\u09bf \u09b9\u09df\u09c7\u099b\u09c7\u0964",
+            "user_id": 12,
+            "is_global": false,
+            "timestamp": "2025-07-08 15:27:53",
+            "sender": "System",
+            "type": "system"
+        },
+        {
+            "id": 15,
+            "message": "\u09b8\u09cd\u09ac\u09be\u0997\u09a4\u09ae, Bro! \u0986\u09ae\u09be\u09a6\u09c7\u09b0 \u0993\u09df\u09c7\u09ac\u09b8\u09be\u0987\u099f\u09c7 \u0986\u09aa\u09a8\u09be\u09b0 \u0985\u09cd\u09af\u09be\u0995\u09be\u0989\u09a8\u09cd\u099f \u09b8\u09ab\u09b2\u09ad\u09be\u09ac\u09c7 \u09a4\u09c8\u09b0\u09bf \u09b9\u09df\u09c7\u099b\u09c7\u0964",
+            "user_id": 13,
+            "is_global": false,
+            "timestamp": "2025-07-09 12:04:04",
+            "sender": "System",
+            "type": "system"
+        }
+    ],
+    "user_counter": 13,
+    "notification_counter": 15,
+    "note_counter": 9,
+    "notes": [
+        {
+            "id": 1,
+            "user_id": 4,
+            "content": "Assalamualaikum",
+            "timestamp": "2025-07-08 10:04:01"
+        },
+        {
+            "id": 2,
+            "user_id": 4,
+            "content": "Bro I'd nai?",
+            "timestamp": "2025-07-08 10:04:16"
+        },
+        {
+            "id": 3,
+            "user_id": 6,
+            "content": "Svvs",
+            "timestamp": "2025-07-08 12:56:51"
+        },
+        {
+            "id": 4,
+            "user_id": 6,
+            "content": "Hello?",
+            "timestamp": "2025-07-08 13:07:34"
+        },
+        {
+            "id": 5,
+            "user_id": 6,
+            "content": "Jvqz ",
+            "timestamp": "2025-07-08 13:07:54"
+        },
+        {
+            "id": 6,
+            "user_id": 6,
+            "content": "Ojs3n",
+            "timestamp": "2025-07-08 13:07:57"
+        },
+        {
+            "id": 7,
+            "user_id": 2,
+            "content": "\u0985\u09cd\u09af\u09be\u09b8\u09cd\u09b2\u09bf\u09b6\u09c7",
+            "timestamp": "2025-07-08 13:30:44"
+        },
+        {
+            "id": 8,
+            "user_id": 11,
+            "content": "\u0997\u09cd\u09af\u09be\u0997\u09b8",
+            "timestamp": "2025-07-08 15:08:20"
+        },
+        {
+            "id": 9,
+            "user_id": 11,
+            "content": "\u099c\u09bf\u098f\u09b8\u098f\u0987\u099a\u098f\u09b8",
+            "timestamp": "2025-07-08 15:08:24"
+        }
+    ],
+    "rate_limit_settings": {
+        "notes": {
+            "limit": 10000,
+            "period_hours": 12
+        }
+    },
+    "guest_usage": {
+        "e037ec5e-2e9d-4d2b-9b75-acf5f47d8f3b": {
+            "facebook_downloader": {
+                "count_1h": 1,
+                "reset_time_1h": "2025-07-09T11:39:33.507157",
+                "count_12h": 1,
+                "reset_time_12h": "2025-07-09T11:39:33.507162"
+            }
+        },
+        "311614fc-8727-483d-8e0d-51182236de3f": {
+            "instagram_downloader": {
+                "count_1h": 0,
+                "reset_time_1h": "2025-07-09T12:16:42.880168",
+                "count_12h": 0,
+                "reset_time_12h": "2025-07-09T12:16:42.880175"
+            },
+            "facebook_downloader": {
+                "count_1h": 1,
+                "reset_time_1h": "2025-07-09T12:17:04.971107",
+                "count_12h": 1,
+                "reset_time_12h": "2025-07-09T12:17:04.971113"
+            }
+        },
+        "af5826ee-d83c-484f-a87e-d36099ac1ed8": {
+            "facebook_downloader": {
+                "count_1h": 1,
+                "reset_time_1h": "2025-07-09T12:40:17.004678",
+                "count_12h": 1,
+                "reset_time_12h": "2025-07-09T12:40:17.004685"
+            }
+        },
+        "95c13011-bd79-430d-bb29-fe4e7c16b9e7": {
+            "facebook_downloader": {
+                "count_1h": 1,
+                "reset_time_1h": "2025-07-09T12:57:47.098210",
+                "count_12h": 1,
+                "reset_time_12h": "2025-07-09T12:57:47.098218"
+            }
+        }
+    }
+}

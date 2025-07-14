@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}এডমিন ড্যাশবোর্ড{% endblock %}
+{% block content %}
+    <h1>এডমিন ড্যাশবোর্ড</h1>
+    <p>স্বাগতম, {{ user.username }}!</p>
+    <h3>সাইটের পরিসংখ্যান</h3>
+    <div style="display: flex; gap: 20px;">
+        <div style="border: 1px solid #ccc; padding: 15px;">
+            <h4>মোট ব্যবহারকারী</h4>
+            <p style="font-size: 24px;"><b>{{ stats.total_users }}</b></p>
+        </div>
+        <div style="border: 1px solid #ccc; padding: 15px;">
+            <h4>মোট নোট</h4>
+            <p style="font-size: 24px;"><b>{{ stats.total_notes }}</b></p>
+        </div>
+        <div style="border: 1px solid #ccc; padding: 15px;">
+            <h4>মোট নোটিফিকেশন</h4>
+            <p style="font-size: 24px;"><b>{{ stats.total_notifications }}</b></p>
+        </div>
+    </div>
+    <hr>
+    <h3>এডমিন মেন্যু</h3>
+    <ul>
+        <li><a href="{{ url_for('admin.user_list') }}">ব্যবহারকারী ব্যবস্থাপনা</a></li>
+        <li><a href="{{ url_for('admin.broadcast') }}">সিস্টেম ব্রডকাস্ট পাঠান</a></li>
+        <li><a href="{{ url_for('admin.send_notification') }}">এডমিন নোটিফিকেশন পাঠান</a></li>
+        <li><a href="{{ url_for('admin.rate_limits') }}">টুলের ব্যবহার সীমা (Rate Limits)</a></li>
+    </ul>
+{% endblock %}

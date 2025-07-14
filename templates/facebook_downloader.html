@@ -1,0 +1,401 @@
+{% extends "base.html" %}
+{% block title %}Facebook Video Downloader - Fast & Free{% endblock %}
+
+{% block styles %}
+<style>
+    .fb-downloader-body {
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 0 15px;
+    }
+
+    .downloader-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    .downloader-header .icon {
+        font-size: 3.5rem;
+        color: var(--accent-color);
+        background: linear-gradient(145deg, #1877f2, #3b5998);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .downloader-header h2 {
+        font-family: var(--font-heading);
+        font-size: clamp(2rem, 5vw, 2.5rem);
+        color: #e4e6eb;
+        font-weight: 800;
+        line-height: 1.2;
+        margin-top: 15px;
+    }
+    .downloader-header p {
+        color: var(--text-color-muted);
+        font-size: clamp(1rem, 3vw, 1.1rem);
+        margin-top: 10px;
+    }
+
+    .form-container {
+        margin-bottom: 60px;
+    }
+    .input-area {
+        position: relative;
+        margin-bottom: 20px;
+    }
+    .link-input {
+        width: 100%;
+        background-color: rgba(28, 30, 33, 0.9);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        color: #e4e6eb;
+        padding: 18px 60px 18px 20px;
+        font-size: 1rem;
+        outline: none;
+        transition: all 0.3s ease;
+    }
+    .link-input:focus {
+        border-color: var(--accent-color);
+        box-shadow: 0 0 15px rgba(0, 140, 255, 0.3);
+    }
+    #paste-btn {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: transparent;
+        border: none;
+        color: var(--text-color-muted);
+        padding: 10px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: color 0.3s ease;
+        font-size: 1.3rem;
+    }
+    #paste-btn:hover {
+        color: var(--accent-color);
+    }
+
+    .submit-btn {
+        width: 100%;
+        background: var(--accent-gradient);
+        color: white;
+        border: none;
+        padding: 18px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    .submit-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 25px rgba(0, 140, 255, 0.5);
+    }
+    .submit-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    /* --- Loading Spinner & Results Styling --- */
+    .loader {
+        display: none;
+        border: 4px solid rgba(255, 255, 255, 0.2);
+        border-left-color: var(--accent-color);
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 40px auto;
+    }
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .results-container hr {
+        border: none;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+        margin: 40px auto;
+    }
+    .video-info {
+        text-align: center;
+    }
+    .video-info img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+        margin-bottom: 25px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+    .video-details h4 {
+        font-family: var(--font-heading);
+        font-size: 1.5rem;
+        color: #e4e6eb;
+        margin-bottom: 15px;
+    }
+    .video-details p {
+        margin: 8px 0;
+        color: var(--text-color-muted);
+    }
+    .download-links {
+        margin-top: 30px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .download-links a {
+        display: block;
+        padding: 14px 20px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid var(--border-color);
+        color: #e4e6eb;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 500;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+    .download-links a:hover {
+        background-color: var(--accent-color);
+        border-color: var(--accent-color);
+        color: white;
+        transform: scale(1.03);
+    }
+    .error-message {
+        text-align: center;
+        color: #ff8a80;
+        margin-top: 30px;
+        background-color: rgba(255, 0, 0, 0.1);
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid #ff5252;
+    }
+
+    /* --- Info Sections Styling --- */
+    .info-section {
+        text-align: center;
+        margin: 80px 0;
+    }
+    .info-section h3 {
+        font-family: var(--font-heading);
+        font-size: 1.8rem;
+        margin-bottom: 50px;
+        color: var(--text-color);
+    }
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 40px;
+        text-align: left;
+    }
+    .info-item {
+        /* No card style */
+    }
+    .info-item .icon {
+        font-size: 2rem;
+        color: var(--accent-color);
+        margin-bottom: 20px;
+    }
+    .info-item h5 {
+        font-family: var(--font-heading);
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+        color: #e4e6eb;
+    }
+    .info-item p {
+        color: var(--text-color-muted);
+        font-size: 0.95rem;
+        line-height: 1.7;
+    }
+
+    /* --- Mobile Responsive Adjustments --- */
+    @media (max-width: 768px) {
+        .fb-downloader-body {
+            margin-top: 20px;
+        }
+        .downloader-header h2 {
+            font-size: 1.8rem;
+        }
+        .link-input {
+            padding: 15px 55px 15px 15px;
+            font-size: 0.95rem;
+        }
+        .submit-btn {
+            padding: 15px;
+            font-size: 1.1rem;
+        }
+        .info-section {
+            margin: 60px 0;
+        }
+        .info-grid {
+            gap: 30px;
+        }
+    }
+</style>
+{% endblock %}
+
+
+{% block content %}
+<div class="fb-downloader-body">
+    <div class="downloader-header">
+        <i class="fab fa-facebook icon"></i>
+        <h2>Facebook Video Downloader</h2>
+        <p>Paste any video link below to get download links</p>
+    </div>
+
+    <div class="form-container">
+        <form id="download-form">
+            <div class="input-area">
+                <input type="text" class="link-input" id="video-link-input" name="video_link" placeholder="Enter Facebook video link here...">
+                <button type="button" id="paste-btn" title="Paste from clipboard">
+                    <i class="fas fa-paste"></i>
+                </button>
+            </div>
+            <button type="submit" class="submit-btn" id="submit-btn">Fetch Video</button>
+        </form>
+    </div>
+
+    <div id="loader" class="loader"></div>
+    <div id="results-container"></div>
+
+    <div class="info-section how-to-use">
+        <h3>How It Works</h3>
+        <div class="info-grid">
+            <div class="info-item">
+                <div class="icon"><i class="fas fa-search"></i></div>
+                <h5>1. Find Your Video</h5>
+                <p>Open Facebook and find the video you want to download. It can be a regular video or a Reel.</p>
+            </div>
+            <div class="info-item">
+                <div class="icon"><i class="fas fa-link"></i></div>
+                <h5>2. Copy the Link</h5>
+                <p>Click on the 'Share' button and then select 'Copy Link' to get the video's URL.</p>
+            </div>
+            <div class="info-item">
+                <div class="icon"><i class="fas fa-paste"></i></div>
+                <h5>3. Paste and Download</h5>
+                <p>Come back here, paste the link into the box above, and click 'Fetch Video' to get your download links.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="info-section features">
+        <h3>Our Features</h3>
+        <div class="info-grid">
+            <div class="info-item">
+                <div class="icon"><i class="fas fa-bolt"></i></div>
+                <h5>Fast & Efficient</h5>
+                <p>Our tool quickly processes your link to provide download options without any delay.</p>
+            </div>
+            <div class="info-item">
+                <div class="icon"><i class="fas fa-film"></i></div>
+                <h5>Multiple Qualities</h5>
+                <p>We provide links for both High Definition (HD) and Standard Definition (SD) whenever available.</p>
+            </div>
+            <div class="info-item">
+                <div class="icon"><i class="fas fa-shield-alt"></i></div>
+                <h5>Safe & Secure</h5>
+                <p>Your privacy is important. We don't store your links or track your downloads.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const downloadForm = document.getElementById('download-form');
+    const linkInput = document.getElementById('video-link-input');
+    const submitBtn = document.getElementById('submit-btn');
+    const resultsContainer = document.getElementById('results-container');
+    const loader = document.getElementById('loader');
+
+    downloadForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const videoLink = linkInput.value;
+        if (!videoLink) {
+            alert("Please paste a link first.");
+            return;
+        }
+
+        resultsContainer.innerHTML = '';
+        loader.style.display = 'block';
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Fetching...';
+
+        fetch("{{ url_for('facebook_downloader.download_video') }}", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+            body: JSON.stringify({ video_link: videoLink })
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(err => Promise.reject(err));
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.error) {
+                resultsContainer.innerHTML = `<div class="error-message">${data.message}</div>`;
+            } else {
+                let downloadLinksHtml = '';
+                if (data.medias && data.medias.length > 0) {
+                    data.medias.forEach(media => {
+                        if (media.type === 'video') {
+                            downloadLinksHtml += `
+                                <a href="${media.url}" target="_blank" download>
+                                    <i class="fas fa-download"></i> Download ${media.quality}
+                                </a>`;
+                        }
+                    });
+                } else {
+                    downloadLinksHtml = '<p>No downloadable video found.</p>';
+                }
+
+                const resultsHtml = `
+                    <hr>
+                    <div class="video-info">
+                        ${data.thumbnail ? `<img src="${data.thumbnail}" alt="Video Thumbnail">` : ''}
+                        <div class="video-details">
+                            <h4>${data.title || 'No Title'}</h4>
+                            ${data.formatted_duration && data.formatted_duration !== 'N/A' ? `<p><b>Duration:</b> ${data.formatted_duration}</p>` : ''}
+                            <div class="download-links">${downloadLinksHtml}</div>
+                        </div>
+                    </div>`;
+                resultsContainer.innerHTML = resultsHtml;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            if (error && error.message) {
+                resultsContainer.innerHTML = `<div class="error-message">${error.message}</div>`;
+            } else {
+                resultsContainer.innerHTML = `<div class="error-message">An unexpected error occurred. Please try again.</div>`;
+            }
+        })
+        .finally(() => {
+            loader.style.display = 'none';
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Fetch Video';
+        });
+    });
+
+    const pasteBtn = document.getElementById('paste-btn');
+    if (pasteBtn && linkInput) {
+        pasteBtn.addEventListener('click', () => {
+            if(navigator.clipboard && navigator.clipboard.readText) {
+                navigator.clipboard.readText().then(text => {
+                    linkInput.value = text;
+                }).catch(err => console.error('Failed to read clipboard: ', err));
+            }
+        });
+    }
+});
+</script>
+{% endblock %}

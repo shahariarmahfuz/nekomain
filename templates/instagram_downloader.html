@@ -1,0 +1,350 @@
+{% extends "base.html" %}
+{% block title %}Instagram Downloader - Reels & Videos{% endblock %}
+
+{% block styles %}
+<style>
+    :root {
+        --ig-gradient: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    }
+    .ig-downloader-body {
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 0 15px;
+    }
+
+    .downloader-header .icon {
+        font-size: 3.5rem;
+        background: var(--ig-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .downloader-header h2 {
+        font-family: var(--font-heading);
+        font-size: clamp(2rem, 5vw, 2.5rem);
+        color: #e4e6eb;
+        font-weight: 800;
+        line-height: 1.2;
+        margin-top: 15px;
+    }
+    .downloader-header p {
+        color: var(--text-color-muted);
+        font-size: clamp(1rem, 3vw, 1.1rem);
+        margin-top: 10px;
+    }
+    .downloader-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    .form-container {
+        margin-bottom: 60px;
+    }
+    .input-area {
+        position: relative;
+        margin-bottom: 20px;
+    }
+    .link-input {
+        width: 100%;
+        background-color: rgba(28, 30, 33, 0.9);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        color: #e4e6eb;
+        padding: 18px 60px 18px 20px;
+        font-size: 1rem;
+        outline: none;
+        transition: all 0.3s ease;
+    }
+    .link-input:focus {
+        border-color: #dc2743;
+        box-shadow: 0 0 15px rgba(220, 39, 67, 0.3);
+    }
+    #paste-btn {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: transparent;
+        border: none;
+        color: var(--text-color-muted);
+        padding: 10px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: color 0.3s ease;
+        font-size: 1.3rem;
+    }
+    #paste-btn:hover {
+        color: #e4e6eb;
+    }
+
+    .submit-btn {
+        width: 100%;
+        background: var(--ig-gradient);
+        color: white;
+        border: none;
+        padding: 18px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    .submit-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 25px rgba(220, 39, 67, 0.4);
+    }
+    .submit-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    /* --- লোডিং স্পিনার ও ফলাফল দেখানোর স্টাইল --- */
+    .loader {
+        display: none;
+        border: 4px solid rgba(255, 255, 255, 0.2);
+        border-left-color: #dc2743;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 40px auto;
+    }
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .results-container hr {
+        border: none;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+        margin: 40px auto;
+    }
+    .video-info {
+        text-align: center;
+    }
+    .video-info img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+        margin-bottom: 25px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+    .video-details h4 {
+        font-family: var(--font-heading);
+        font-size: 1.3rem;
+        color: #e4e6eb;
+        margin-bottom: 15px;
+        line-height: 1.5;
+    }
+    .video-details p {
+        margin: 8px 0;
+        color: var(--text-color-muted);
+    }
+    .download-links {
+        margin-top: 30px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .download-links a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 14px 20px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid var(--border-color);
+        color: #e4e6eb;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 500;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+    .download-links a:hover {
+        background: #dc2743;
+        border-color: #dc2743;
+        color: white;
+        transform: scale(1.03);
+    }
+    .error-message {
+        text-align: center;
+        color: #ff8a80;
+        margin-top: 30px;
+        background-color: rgba(255, 0, 0, 0.1);
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid #ff5252;
+    }
+
+    /* --- তথ্য সেকশন --- */
+    .info-section {
+        text-align: center;
+        margin: 80px 0;
+    }
+    .info-section h3 {
+        font-family: var(--font-heading);
+        font-size: 1.8rem;
+        margin-bottom: 50px;
+    }
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 40px;
+        text-align: left;
+    }
+    .info-item .icon {
+        font-size: 2rem;
+        margin-bottom: 20px;
+        background: var(--ig-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .info-item h5 {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+    }
+    .info-item p {
+        line-height: 1.7;
+    }
+</style>
+{% endblock %}
+
+
+{% block content %}
+<div class="ig-downloader-body">
+    <div class="downloader-header">
+        <i class="fab fa-instagram icon"></i>
+        <h2>Instagram Downloader</h2>
+        <p>Download Reels, Videos, and Stories effortlessly</p>
+    </div>
+
+    <div class="form-container">
+        <form id="download-form">
+            <div class="input-area">
+                <input type="text" class="link-input" id="video-link-input" name="video_link" placeholder="Enter Instagram link here...">
+                <button type="button" id="paste-btn" title="Paste from clipboard">
+                    <i class="fas fa-paste"></i>
+                </button>
+            </div>
+            <button type="submit" class="submit-btn" id="submit-btn">Fetch Media</button>
+        </form>
+    </div>
+
+    <div id="loader" class="loader"></div>
+    <div id="results-container"></div>
+
+    <div class="info-section how-to-use">
+        <h3>How To Download</h3>
+        <div class="info-grid">
+            <div class="info-item">
+                <div class="icon"><i class="fab fa-instagram"></i></div>
+                <h5>1. Find Your Media</h5>
+                <p>Open Instagram and find the Reel, Video, or Story you want to download.</p>
+            </div>
+            <div class="info-item">
+                <div class="icon"><i class="fas fa-link"></i></div>
+                <h5>2. Copy the Link</h5>
+                <p>Tap the three dots (...) or the share icon, then select 'Copy Link' from the menu.</p>
+            </div>
+            <div class="info-item">
+                <div class="icon"><i class="fas fa-paste"></i></div>
+                <h5>3. Paste and Fetch</h5>
+                <p>Return here, paste the link in the box, and click 'Fetch Media' to see all download options.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const downloadForm = document.getElementById('download-form');
+    const linkInput = document.getElementById('video-link-input');
+    const submitBtn = document.getElementById('submit-btn');
+    const resultsContainer = document.getElementById('results-container');
+    const loader = document.getElementById('loader');
+
+    downloadForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const videoLink = linkInput.value;
+        if (!videoLink) {
+            alert("Please paste a link first.");
+            return;
+        }
+
+        resultsContainer.innerHTML = '';
+        loader.style.display = 'block';
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Fetching...';
+
+        fetch("{{ url_for('instagram_downloader.download_reel') }}", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+            body: JSON.stringify({ video_link: videoLink })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                resultsContainer.innerHTML = `<div class="error-message">${data.message}</div>`;
+            } else {
+                let downloadLinksHtml = '';
+                if (data.medias && data.medias.length > 0) {
+                    data.medias.forEach(media => {
+                        let buttonText = '';
+                        if (media.type === 'video') {
+                            buttonText = `<i class="fas fa-video"></i> Download Video (${media.quality})`;
+                        } else if (media.type === 'audio') {
+                            buttonText = `<i class="fas fa-music"></i> Download Audio (${media.quality})`;
+                        } else {
+                             buttonText = `<i class="fas fa-download"></i> Download (${media.type})`;
+                        }
+                        downloadLinksHtml += `<a href="${media.url}" target="_blank" download>${buttonText}</a>`;
+                    });
+                } else {
+                    downloadLinksHtml = '<p>No downloadable media found.</p>';
+                }
+
+                const resultsHtml = `
+                    <hr>
+                    <div class="video-info">
+                        ${data.local_thumbnail ? `<img src="${data.local_thumbnail}" alt="Thumbnail">` : (data.thumbnail ? `<img src="${data.thumbnail}" alt="Thumbnail">` : '')}
+                        <div class="video-details">
+                            <h4>${data.title || 'No Title'}</h4>
+                            <p><b>By:</b> ${data.author || 'Unknown'}</p>
+                            <p><b>Duration:</b> ${data.duration ? data.duration + ' seconds' : 'N/A'}</p>
+                            <div class="download-links">${downloadLinksHtml}</div>
+                        </div>
+                    </div>`;
+                resultsContainer.innerHTML = resultsHtml;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            resultsContainer.innerHTML = `<div class="error-message">An unexpected error occurred. Please try again.</div>`;
+        })
+        .finally(() => {
+            loader.style.display = 'none';
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Fetch Media';
+        });
+    });
+
+    const pasteBtn = document.getElementById('paste-btn');
+    if (pasteBtn && linkInput) {
+        pasteBtn.addEventListener('click', () => {
+            if(navigator.clipboard && navigator.clipboard.readText) {
+                navigator.clipboard.readText().then(text => {
+                    linkInput.value = text;
+                }).catch(err => console.error('Failed to read clipboard: ', err));
+            }
+        });
+    }
+});
+</script>
+{% endblock %}

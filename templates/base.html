@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}xneko{% endblock %}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Karla:wght@400;500;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --font-body: 'Karla', sans-serif;
+            --font-heading: 'Plus Jakarta Sans', sans-serif;
+            --background-color: #000000;
+            --sidebar-color: rgba(16, 16, 16, 0.65);
+            --text-color: #e2e2e2;
+            --text-color-muted: #9a9a9a;
+            --accent-gradient: linear-gradient(90deg, #007BFF, #00C6FF);
+            --accent-color: #008cff;
+            --border-color: #2a2a2a;
+            --overlay-color: rgba(0, 0, 0, 0.6);
+            --hover-bg-color: rgba(35, 35, 35, 0.7);
+            --glass-bg-color: rgba(16, 16, 16, 0.75);
+            --border-radius: 6px;
+            --transition-speed: 0.3s;
+            --ig-gradient: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: var(--background-color);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            color: var(--text-color);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .top-bar {
+            position: fixed; top: 0; left: 0; width: 100%; display: flex;
+            justify-content: space-between; align-items: center; padding: 10px 25px;
+            z-index: 1000; background-color: var(--glass-bg-color);
+            backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--border-color);
+            transition: top var(--transition-speed) ease-in-out;
+        }
+        .main-logo-container { transition: opacity var(--transition-speed) ease, visibility var(--transition-speed) ease; }
+        body.sidebar-active .main-logo-container { opacity: 0; visibility: hidden; }
+        .xneko-logo { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; }
+        .xneko-logo .x-icon { position: relative; width: 28px; height: 28px; flex-shrink: 0; }
+        .xneko-logo .x-icon::before, .xneko-logo .x-icon::after {
+            content: ''; position: absolute; width: 100%; height: 18%;
+            background: var(--accent-gradient); top: 41%; left: 0;
+            border-radius: 3px; transition: transform var(--transition-speed) cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .xneko-logo .x-icon::before { transform: rotate(45deg); }
+        .xneko-logo .x-icon::after { transform: rotate(-45deg); }
+        .xneko-logo:hover .x-icon::before { transform: rotate(55deg) scale(1.05); }
+        .xneko-logo:hover .x-icon::after { transform: rotate(-55deg) scale(1.05); }
+        .xneko-logo .logo-text { font-family: var(--font-heading); font-size: 28px; font-weight: 800; color: var(--text-color); line-height: 1; }
+        .xneko-logo--small .x-icon { width: 22px; height: 22px; }
+        .xneko-logo--small .logo-text { font-size: 22px; }
+        .scroll-progress-bar { position: absolute; bottom: -1px; left: 0; height: 2px; background: var(--accent-gradient); width: 0%; z-index: 1; }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--overlay-color); opacity: 0; visibility: hidden; transition: opacity var(--transition-speed) ease, visibility var(--transition-speed) ease; z-index: 1010; }
+        body.sidebar-active .overlay { opacity: 1; visibility: visible; }
+        .menu-button { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; justify-content: space-around; height: 20px; width: 24px; }
+        .bar { height: 2px; width: 100%; background: var(--text-color); border-radius: 3px; transition: all var(--transition-speed) cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+        .menu-button:hover .bar { background: var(--accent-color); }
+        body.sidebar-active .menu-button .bar-1 { transform: translateY(7px) rotate(45deg); }
+        body.sidebar-active .menu-button .bar-2 { opacity: 0; }
+        body.sidebar-active .menu-button .bar-3 { transform: translateY(-7px) rotate(-45deg); }
+        .sidebar { position: fixed; top: 0; right: 0; width: 280px; height: 100%; background: var(--sidebar-color); backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px); box-shadow: -10px 0px 40px -15px rgba(0, 0, 0, 0.4); z-index: 1020; display: flex; flex-direction: column; clip-path: inset(0 0 0 100%); visibility: hidden; transition: clip-path 0.5s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.5s; will-change: clip-path; }
+        body.sidebar-active .sidebar { clip-path: inset(0 0 0 0); visibility: visible; }
+        .sidebar-header { padding: 18px 25px; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+        .close-sidebar-btn { background: transparent; border: none; color: var(--text-color-muted); font-size: 1.4rem; cursor: pointer; padding: 5px; transition: color var(--transition-speed) ease, transform var(--transition-speed) ease; }
+        .close-sidebar-btn:hover { color: var(--text-color); transform: rotate(90deg) scale(1.1); }
+        .menu-nav { flex-grow: 1; padding: 15px 0; list-style: none; overflow-y: auto; }
+        .menu-item { opacity: 0; transform: translateX(-20px); will-change: opacity, transform; transition: opacity var(--transition-speed) ease-out, transform var(--transition-speed) ease-out; }
+        .menu-item > a, .menu-item .submenu-toggle { display: flex; align-items: center; gap: 18px; padding: 14px 25px; color: var(--text-color); text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: background var(--transition-speed) ease, color var(--transition-speed) ease; position: relative; }
+        .notification-badge { background: var(--accent-color); color: white; border-radius: 50%; width: 22px; height: 22px; font-size: 0.75rem; font-weight: bold; display: inline-flex; justify-content: center; align-items: center; margin-left: auto; }
+        .menu-item > a::before, .submenu-toggle::before { content: ''; position: absolute; left: 0; top: 50%; height: 0; width: 4px; background: linear-gradient(180deg, #007bff, #13a3ff); transform: translateY(-50%); transition: height var(--transition-speed) cubic-bezier(0.23, 1, 0.32, 1); border-radius: 0 var(--border-radius) var(--border-radius) 0; }
+        .menu-item a:hover::before, .submenu-toggle:hover::before, .menu-item.active > .submenu-toggle::before { height: 80%; }
+        .menu-item a:hover, .submenu-toggle:hover { background: var(--hover-bg-color); cursor: pointer; }
+        .menu-item.active > .submenu-toggle { color: var(--accent-color); font-weight: 700; background: var(--hover-bg-color); }
+        .menu-item a i, .submenu-toggle i { width: 22px; text-align: center; font-size: 1.1rem; color: var(--text-color-muted); transition: color var(--transition-speed) ease; }
+        .menu-item a:hover i, .submenu-toggle:hover i, .menu-item.active > .submenu-toggle i { color: var(--accent-color); }
+        .submenu-toggle .arrow { margin-left: auto; font-size: 0.8rem; transition: transform var(--transition-speed) ease; }
+        .menu-item.active > .submenu-toggle .arrow { transform: rotate(180deg); }
+        .menu-item.has-submenu { display: grid; grid-template-rows: auto 0fr; transition: grid-template-rows 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+        .menu-item.has-submenu.active { grid-template-rows: auto 1fr; }
+        .submenu { overflow: hidden; min-height: 0; background-color: rgba(0,0,0,0.25); }
+        .submenu-inner { padding: 10px 0; list-style: none; }
+        .submenu a { padding: 12px 25px 12px 68px; color: var(--text-color-muted); font-size: 0.9rem; display: flex; align-items: center; text-decoration: none; transition: color var(--transition-speed) ease, background-color var(--transition-speed) ease; }
+        .submenu a:hover { color: var(--accent-color); background-color: rgba(255, 255, 255, 0.04); }
+        body.sidebar-active .menu-item { opacity: 1; transform: translateX(0); }
+        body.sidebar-active .menu-item:nth-child(1) { transition-delay: 0.1s; }
+        body.sidebar-active .menu-item:nth-child(2) { transition-delay: 0.15s; }
+        body.sidebar-active .menu-item:nth-child(3) { transition-delay: 0.2s; }
+        body.sidebar-active .menu-item:nth-child(4) { transition-delay: 0.25s; }
+        body.sidebar-active .menu-item:nth-child(5) { transition-delay: 0.3s; }
+        .flash-messages { max-width: 800px; margin: 0 auto 20px; padding: 0; }
+        .flash-message { padding: 15px; border-radius: var(--border-radius); margin-bottom: 15px; border: 1px solid; }
+        .flash-message.success { background-color: rgba(40, 167, 69, 0.2); border-color: #28a745; color: #d1e7dd; }
+        .flash-message.error { background-color: rgba(220, 53, 69, 0.2); border-color: #dc3545; color: #f8d7da; }
+        .main-content { padding: 100px 40px 40px; max-width: 1200px; margin: 0 auto; min-height: calc(100vh - 200px); }
+        .site-footer { background-color: var(--sidebar-color); padding: 70px 40px 30px; border-top: 1px solid var(--border-color); }
+        .footer-container { max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 40px; }
+        .footer-column { flex: 1; min-width: 220px; }
+        .footer-column .xneko-logo { margin-bottom: 20px; }
+        .footer-column p { color: var(--text-color-muted); font-size: 0.9rem; line-height: 1.6; }
+        .footer-column h4 { font-family: var(--font-heading); color: var(--text-color); font-weight: 700; margin-bottom: 25px; font-size: 1.1rem; }
+        .footer-column ul { list-style: none; }
+        .footer-column ul li { margin-bottom: 12px; }
+        .footer-column ul a { color: var(--text-color-muted); text-decoration: none; transition: all var(--transition-speed) ease; font-size: 0.9rem; }
+        .footer-column ul a:hover { color: var(--accent-color); padding-left: 5px; }
+        .social-icons { display: flex; gap: 18px; }
+        .social-icons a { color: var(--text-color-muted); font-size: 1.3rem; transition: all var(--transition-speed) ease; will-change: transform; }
+        .social-icons a:hover { color: var(--accent-color); transform: translateY(-3px); }
+        .footer-bottom-bar { max-width: 1200px; margin: 50px auto 0; padding-top: 25px; border-top: 1px solid var(--border-color); text-align: center; color: var(--text-color-muted); font-size: 0.85rem; }
+    </style>
+
+    {% block styles %}{% endblock %}
+
+</head>
+<body>
+
+    <header class="top-bar">
+        <div class="main-logo-container">
+            <a href="{{ url_for('auth.home') }}" class="xneko-logo">
+                <div class="x-icon"></div>
+                <span class="logo-text">neko</span>
+            </a>
+        </div>
+        <div class="menu-container">
+            <button class="menu-button" aria-label="Toggle Menu" aria-expanded="false" aria-controls="sidebar">
+                <span class="bar bar-1"></span>
+                <span class="bar bar-2"></span>
+                <span class="bar bar-3"></span>
+            </button>
+        </div>
+        <div class="scroll-progress-bar"></div>
+    </header>
+
+    <div class="overlay"></div>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <a href="{{ url_for('auth.home') }}" class="xneko-logo xneko-logo--small">
+                <div class="x-icon"></div>
+                <span class="logo-text">neko</span>
+            </a>
+            <button class="close-sidebar-btn" aria-label="Close Menu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <ul class="menu-nav" id="sidebar-nav">
+            <li class="menu-item">
+                <a href="{{ url_for('auth.home') }}"><i class="fas fa-home"></i> হোমপেজ</a>
+            </li>
+
+            {% if user %}
+                <li class="menu-item has-submenu">
+                    <div class="submenu-toggle"> <i class="fas fa-tools"></i> <span>আমাদের টুলস</span> <i class="fas fa-chevron-down arrow"></i> </div>
+                    <div class="submenu">
+                        <ul class="submenu-inner">
+                            <li><a href="{{ url_for('notes.my_notes') }}">আমার নোট</a></li>
+                            <li><a href="{{ url_for('facebook_downloader.download_video') }}">ফেসবুক ডাউনলোডার</a></li>
+                            <li><a href="{{ url_for('instagram_downloader.download_reel') }}">ইনস্টাগ্রাম ডাউনলোডার</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ url_for('auth.notifications') }}">
+                        <i class="fas fa-bell"></i> <span>নোটিফিকেশন</span>
+                        {% if unread_count > 0 %}<span class="notification-badge">{{ unread_count }}</span>{% endif %}
+                    </a>
+                </li>
+                <li class="menu-item has-submenu">
+                    <div class="submenu-toggle"> <i class="fas fa-user-circle"></i> <span>{{ user.get('display_name', user.username) }}</span> <i class="fas fa-chevron-down arrow"></i> </div>
+                    <div class="submenu">
+                        <ul class="submenu-inner">
+                            <li><a href="{{ url_for('auth.profile') }}">প্রোফাইল</a></li>
+                            <li><a href="{{ url_for('auth.logout') }}">লগআউট</a></li>
+                        </ul>
+                    </div>
+                </li>
+                {% if user.is_admin %}
+                <li class="menu-item has-submenu">
+                    <div class="submenu-toggle"> <i class="fas fa-shield-alt"></i> <span>এডমিন প্যানেল</span> <i class="fas fa-chevron-down arrow"></i> </div>
+                    <div class="submenu">
+                        <ul class="submenu-inner">
+                            <li><a href="{{ url_for('admin.dashboard') }}">ড্যাশবোর্ড</a></li>
+                            <li><a href="{{ url_for('admin.user_list') }}">ব্যবহারকারী ব্যবস্থাপনা</a></li>
+                            <li><a href="{{ url_for('admin.broadcast') }}">সিস্টেম ব্রডকাস্ট</a></li>
+                            <li><a href="{{ url_for('admin.rate_limits') }}">রেট লিমিট সেটিংস</a></li>
+                        </ul>
+                    </div>
+                </li>
+                {% endif %}
+            {% else %}
+                <li class="menu-item"> <a href="{{ url_for('auth.login') }}"><i class="fas fa-sign-in-alt"></i> লগইন</a> </li>
+                <li class="menu-item"> <a href="{{ url_for('auth.signup') }}"><i class="fas fa-user-plus"></i> সাইনআপ</a> </li>
+            {% endif %}
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <div class="flash-messages">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-message {{ category }}"> {{ message }} </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        </div>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <a href="{{ url_for('auth.home') }}" class="xneko-logo xneko-logo--small">
+                    <div class="x-icon"></div> <span class="logo-text">neko</span>
+                </a>
+                <p>Crafting elegant digital experiences with precision and passion. We build tools for the modern web.</p>
+            </div>
+            <div class="footer-column">
+                <h4>গুরুত্বপূর্ণ লিঙ্ক</h4>
+                <ul>
+                    <li><a href="{{ url_for('static_pages.about_me') }}">আমাদের সম্পর্কে</a></li>
+                    <li><a href="{{ url_for('static_pages.privacy_policy') }}">প্রাইভেসি পলিসি</a></li>
+                    <li><a href="{{ url_for('static_pages.contact_us') }}">যোগাযোগ</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>আমাদের টুলস</h4>
+                <ul>
+                    <li><a href="{{ url_for('notes.my_notes') }}">আমার নোট</a></li>
+                    <li><a href="{{ url_for('facebook_downloader.download_video') }}">ফেসবুক ডাউনলোডার</a></li>
+                    <li><a href="{{ url_for('instagram_downloader.download_reel') }}">ইনস্টাগ্রাম ডাউনলোডার</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>আমাদের সাথে থাকুন</h4>
+                <div class="social-icons">
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Github"><i class="fab fa-github"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom-bar">
+            &copy;  xneko. All Rights Reserved. Made with &hearts; in Bangladesh.
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuButton = document.querySelector('.menu-button');
+            const overlay = document.querySelector('.overlay');
+            const closeButton = document.querySelector('.close-sidebar-btn');
+            function toggleSidebar(e) {
+                e.preventDefault();
+                document.body.classList.toggle('sidebar-active');
+                const isActive = document.body.classList.contains('sidebar-active');
+                if(menuButton) menuButton.setAttribute('aria-expanded', isActive);
+            }
+            if(menuButton) menuButton.addEventListener('click', toggleSidebar);
+            if(overlay) overlay.addEventListener('click', toggleSidebar);
+            if(closeButton) closeButton.addEventListener('click', toggleSidebar);
+
+            const menuNav = document.querySelector('#sidebar-nav');
+            if(menuNav) {
+                menuNav.addEventListener('click', (event) => {
+                    const toggle = event.target.closest('.submenu-toggle');
+                    if (!toggle) return;
+                    event.preventDefault();
+                    const parentMenuItem = toggle.closest('.menu-item');
+                    if (!parentMenuItem || !parentMenuItem.classList.contains('has-submenu')) return;
+                    const wasActive = parentMenuItem.classList.contains('active');
+                    menuNav.querySelectorAll('.has-submenu.active').forEach(item => {
+                        if (item !== parentMenuItem) item.classList.remove('active');
+                    });
+                    parentMenuItem.classList.toggle('active', !wasActive);
+                });
+            }
+
+            const progressBar = document.querySelector('.scroll-progress-bar');
+            const topBar = document.querySelector('.top-bar');
+            let ticking = false;
+            let lastScrollY = window.scrollY;
+            function handleScroll() {
+                const scrollTop = window.scrollY;
+                const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrollPercent = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+                progressBar.style.width = scrollPercent + '%';
+                if (window.scrollY > lastScrollY && window.scrollY > topBar.offsetHeight) {
+                    topBar.style.top = `-${topBar.offsetHeight}px`;
+                } else {
+                    topBar.style.top = '0';
+                }
+                lastScrollY = window.scrollY;
+                ticking = false;
+            }
+            window.addEventListener('scroll', () => {
+                if (!ticking) {
+                    window.requestAnimationFrame(handleScroll);
+                    ticking = true;
+                }
+            });
+        });
+    </script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

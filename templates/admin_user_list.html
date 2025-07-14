@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}ব্যবহারকারী ব্যবস্থাপনা{% endblock %}
+{% block content %}
+    <h2>সকল ব্যবহারকারী</h2>
+    <table border="1" style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr>
+                <th>আইডি</th>
+                <th>ইউজারনেম</th>
+                <th>স্ট্যাটাস</th>
+                <th>এডমিন?</th>
+                <th>রেজিস্ট্রেশন তারিখ</th>
+                <th>অ্যাকশন</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for u in users %}
+            <tr>
+                <td>{{ u.id }}</td>
+                <td>{{ u.username }}</td>
+                <td>
+                    {% if u.get('is_active', True) %}
+                        <span style="color: green;">সক্রিয়</span>
+                    {% else %}
+                        <span style="color: red;">নিষ্ক্রিয়</span>
+                    {% endif %}
+                </td>
+                <td>{{ 'হ্যাঁ' if u.is_admin else 'না' }}</td>
+                <td>{{ u.get('registration_date', 'N/A') }}</td>
+                <td>
+                    <form action="{{ url_for('admin.toggle_admin', user_id=u.id) }}" method="POST" style="display: inline;">
+                        <button type="submit">
+                            {{ 'এডমিন রিমুভ' if u.is_admin else 'এডমিন বানান' }}
+                        </button>
+                    </form>
+                    <form action="{{ url_for('admin.toggle_active', user_id=u.id) }}" method="POST" style="display: inline;">
+                        <button type="submit">
+                            {{ 'নিষ্ক্রিয় করুন' if u.get('is_active', True) else 'সক্রিয় করুন' }}
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

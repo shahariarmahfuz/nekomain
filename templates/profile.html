@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}আমার প্রোফাইল{% endblock %}
+{% block content %}
+    <h2>প্রোফাইল পেজ</h2>
+    <p><b>ইউজারনেম:</b> {{ user.username }} (এটি পরিবর্তনযোগ্য নয়)</p>
+    
+    <hr>
+    
+    <h3>প্রদর্শনের নাম পরিবর্তন করুন</h3>
+    <form method="POST">
+        <div>
+            <label for="display_name">আপনার নাম:</label>
+            <input type="text" id="display_name" name="display_name" value="{{ user.get('display_name', user.username) }}">
+        </div>
+        <br>
+        <button type="submit">নাম সেভ করুন</button>
+    </form>
+    
+    <hr>
+    
+    <h3>পাসওয়ার্ড পরিবর্তন</h3>
+    <p>আপনার পাসওয়ার্ড পরিবর্তন করতে নিচের লিঙ্কে ক্লিক করুন।</p>
+    <a href="{{ url_for('auth.change_password') }}">পাসওয়ার্ড পরিবর্তন করুন</a>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}নোটিফিকেশন পাঠান{% endblock %}
+
+{% block content %}
+    <h3>ইউজারদের কাছে নোটিফিকেশন পাঠান</h3>
+    <form method="POST">
+        <div>
+            <label for="message">বার্তা:</label><br>
+            <textarea name="message" id="message" rows="4" cols="50"></textarea>
+        </div>
+        <br>
+        <div>
+            <label for="target_user">কাকে পাঠাবেন:</label>
+            <select name="target_user" id="target_user">
+                <option value="all">সকল ইউজার</option>
+                {% for u in all_users %}
+                    {% if not u.is_admin %}
+                        <option value="{{ u.id }}">{{ u.username }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <br>
+        <button type="submit">পাঠান</button>
+    </form>
+{% endblock %}

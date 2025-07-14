@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}ফেসবুক ভিডিও ডাউনলোডার{% endblock %}
+
+{% block content %}
+    <h1>ফেসবুক ভিডিও ডাউনলোডার</h1>
+    
+    {% if user.is_authenticated %}
+        <p>আপনার ফেসবুক ভিডিওর লিংকটি নিচের বক্সে পেস্ট করুন এবং ডাউনলোড বাটনে ক্লিক করুন।</p>
+        <form method="post">
+            <label for="video_url">ভিডিও ইউআরএল:</label>
+            <input type="text" id="video_url" name="video_url" size="50">
+            <button type="submit">ডাউনলোড</button>
+        </form>
+        <hr>
+        {% if message %}
+            <h2>ফলাফল:</h2>
+            <p><b>{{ message }}</b></p>
+        {% endif %}
+    {% else %}
+        <p>এই টুলটি ব্যবহার করার জন্য দয়া করে <a href="{{ url_for('auth.login') }}">লগইন</a> করুন।</p>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}আমার নোট{% endblock %}
+
+{% block content %}
+    <h2>আমার নোটসমূহ</h2>
+    <p>এখানে আপনার ব্যক্তিগত নোট লিখে রাখুন।</p>
+    
+    <form method="POST">
+        <textarea name="note_content" rows="4" cols="50" placeholder="আপনার নতুন নোট লিখুন..."></textarea>
+        <br>
+        <button type="submit">নোট যোগ করুন</button>
+    </form>
+    
+    <hr>
+    
+    <h3>আপনার সংরক্ষিত নোট:</h3>
+    {% if notes %}
+        <ul style="list-style-type: none; padding: 0;">
+            {% for note in notes %}
+                <li style="border-bottom: 1px solid #eee; padding: 10px 0;">
+                    <p>{{ note.content }}</p>
+                    <small>লেখা হয়েছে: {{ note.timestamp }}</small>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>আপনি এখনো কোনো নোট যোগ করেননি।</p>
+    {% endif %}
+{% endblock %}

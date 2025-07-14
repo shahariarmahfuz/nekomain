@@ -1,0 +1,289 @@
+{% extends "base.html" %}
+
+{% block title %}xneko - All-in-One Tools{% endblock %}
+
+{% block styles %}
+<style>
+    /* --- Main body background --- */
+    body {
+        background-color: var(--background-color);
+    }
+
+    /* --- Hero Section Spacing --- */
+    .hero-section {
+        text-align: center;
+        padding: 40px 20px;
+        margin-bottom: 70px;
+    }
+    .hero-section h4 {
+        font-family: var(--font-heading);
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 15px;
+        color: var(--text-color);
+        line-height: 1.3;
+        text-shadow: 0 0 15px rgba(0, 140, 255, 0.3);
+    }
+    .hero-section p {
+        font-size: 1.1rem;
+        color: var(--text-color-muted);
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .tool-grid {
+        display: grid;
+        /* -- Card width adjusted here -- */
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+    }
+
+    /* --- Advanced Premium Card Styling --- */
+    @keyframes fade-in-up {
+        from {
+            opacity: 0;
+            transform: translateY(30px) scale(0.98);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    .tool-card {
+        background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.03), transparent 40%), var(--glass-bg-color);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        position: relative;
+        overflow: hidden;
+        transform-style: preserve-3d;
+        transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        opacity: 0;
+        animation: fade-in-up 0.6s ease-out forwards;
+    }
+
+    .tool-card:nth-of-type(2) { animation-delay: 0.15s; }
+    .tool-card:nth-of-type(3) { animation-delay: 0.3s; }
+
+    .tool-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), rgba(0, 140, 255, 0.15), transparent 40%);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        z-index: 1;
+    }
+    .tool-card:hover::before {
+        opacity: 1;
+    }
+
+    .card-content {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .card-icon {
+        font-size: 1.8rem;
+        color: var(--accent-color);
+        margin-bottom: 25px;
+        width: 55px;
+        height: 55px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--sidebar-color);
+        border-radius: 50%;
+        border: 1px solid var(--border-color);
+        transform: translateZ(30px);
+        transition: color 0.3s ease;
+    }
+    .tool-card:hover .card-icon {
+        color: #fff;
+    }
+
+    .tool-card h3 {
+        font-family: var(--font-heading);
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        color: var(--text-color);
+        transform: translateZ(25px);
+    }
+
+    .feature-list {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 30px;
+        flex-grow: 1;
+        transform: translateZ(20px);
+    }
+    .feature-list li {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: var(--text-color-muted);
+        font-size: 0.95rem;
+        margin-bottom: 12px;
+    }
+    .feature-list i {
+        color: #28a745;
+        font-size: 1rem;
+    }
+
+    .card-button {
+        display: inline-block;
+        background: transparent;
+        border: 1px solid var(--accent-color);
+        color: var(--accent-color);
+        text-decoration: none;
+        padding: 12px 20px;
+        border-radius: var(--border-radius);
+        text-align: center;
+        font-weight: 500;
+        transition: all var(--transition-speed) ease;
+        margin-top: auto;
+        transform: translateZ(40px);
+    }
+    .card-button:hover {
+        background: var(--accent-color);
+        color: white;
+        box-shadow: 0 0 20px rgba(0, 140, 255, 0.5);
+    }
+
+    .login-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background-color: rgba(255, 193, 7, 0.2);
+        color: #ffc107;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        border: 1px solid #ffc107;
+        z-index: 3;
+    }
+
+    /* --- Responsive Adjustments for Mobile --- */
+    @media (max-width: 768px) {
+        .main-content {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+        .hero-section h4 {
+            font-size: 1.8rem;
+        }
+    }
+    @media (max-width: 480px) {
+        .main-content {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+        .hero-section {
+            padding-top: 20px;
+            margin-bottom: 40px;
+        }
+    }
+
+</style>
+{% endblock %}
+
+
+{% block content %}
+<div class="hero-section">
+    <h4>All Your Essential Tools in One Place</h4>
+    <p>Streamline your daily tasks with our modern and powerful tools, designed for efficiency and ease of use.</p>
+</div>
+
+<div class="tool-grid">
+    <div class="tool-card">
+        <div class="card-content">
+            {% if not user %}
+                <span class="login-badge">Login Required</span>
+            {% endif %}
+            <div class="card-icon">
+                <i class="fa-solid fa-note-sticky"></i>
+            </div>
+            <h3>My Notes</h3>
+            <ul class="feature-list">
+                <li><i class="fas fa-check-circle"></i> Securely store personal notes</li>
+                <li><i class="fas fa-check-circle"></i> Simple and clean interface</li>
+                <li><i class="fas fa-check-circle"></i> Accessible from anywhere</li>
+                <li><i class="fas fa-check-circle"></i> Exclusive for registered users</li>
+            </ul>
+            <a href="{{ url_for('notes.my_notes') }}" class="card-button">Use Tool</a>
+        </div>
+    </div>
+
+    <div class="tool-card">
+        <div class="card-content">
+            <div class="card-icon">
+                <i class="fa-brands fa-facebook"></i>
+            </div>
+            <h3>Facebook Downloader</h3>
+            <ul class="feature-list">
+                <li><i class="fas fa-check-circle"></i> Super fast downloads</li>
+                <li><i class="fas fa-check-circle"></i> HD & SD quality supported</li>
+                <li><i class="fas fa-check-circle"></i> Public videos & reels</li>
+                <li><i class="fas fa-check-circle"></i> 100% working & free to use</li>
+            </ul>
+            <a href="{{ url_for('facebook_downloader.download_video') }}" class="card-button">Use Tool</a>
+        </div>
+    </div>
+
+    <div class="tool-card">
+        <div class="card-content">
+            <div class="card-icon">
+                <i class="fa-brands fa-instagram"></i>
+            </div>
+            <h3>Instagram Downloader</h3>
+            <ul class="feature-list">
+                <li><i class="fas fa-check-circle"></i> Download Reels & Videos</li>
+                <li><i class="fas fa-check-circle"></i> High-quality video & audio</li>
+                <li><i class="fas fa-check-circle"></i> Easy to use, just paste the link</li>
+                <li><i class="fas fa-check-circle"></i> Anonymous and secure</li>
+            </ul>
+            <a href="{{ url_for('instagram_downloader.download_reel') }}" class="card-button">Use Tool</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.tool-card');
+
+    cards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = (y - centerY) / centerY * -5;
+            const rotateY = (x - centerX) / centerX * 5;
+
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+        });
+    });
+});
+</script>
+{% endblock %}

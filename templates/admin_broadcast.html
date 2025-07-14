@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}সিস্টেম ব্রডকাস্ট{% endblock %}
+{% block content %}
+    <h2>সিস্টেম ব্রডকাস্ট পাঠান</h2>
+    <p>এখানে লেখা বার্তাটি সকল ব্যবহারকারীর কাছে একটি "সিস্টেম" নোটিফিকেশন হিসেবে পৌঁছাবে।</p>
+    <form method="POST">
+        <div>
+            <label for="message">বার্তা:</label><br>
+            <textarea name="message" id="message" rows="5" cols="60" placeholder="জরুরি রক্ষণাবেক্ষণের জন্য আমাদের সিস্টেম রাত ১২টা থেকে ১টা পর্যন্ত বন্ধ থাকবে।"></textarea>
+        </div>
+        <br>
+        <button type="submit">ব্রডকাস্ট পাঠান</button>
+    </form>
+{% endblock %}

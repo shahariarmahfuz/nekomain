@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% block title %}Your Notifications{% endblock %}
+
+{% block styles %}
+<style>
+    body {
+        background: #0c0c0c;
+        color: #e0e0e0;
+        font-family: 'Poppins', sans-serif;
+    }
+    .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+    .header { text-align: center; margin: 20px 0 40px; }
+    .header h1 {
+        font-family: 'Montserrat', sans-serif; font-size: 2.5rem; font-weight: 700;
+        background: linear-gradient(to right, #8a2be2, #4a00e0);
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .notifications-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+    .notifications-header h2 { font-size: 1.6rem; font-weight: 600; color: #f0f0f0; }
+    .filter-options { display: flex; gap: 10px; }
+    .filter-btn {
+        background: rgba(60, 60, 80, 0.5); border: 1px solid rgba(100, 100, 255, 0.2);
+        color: #d0d0d0; padding: 8px 16px; border-radius: 30px;
+        font-size: 0.9rem; cursor: pointer; transition: all 0.3s ease;
+    }
+    .filter-btn.active, .filter-btn:hover { background: linear-gradient(to right, #6a5af9, #d66efd); color: white; border-color: transparent; }
+    .notification-list { list-style: none; padding: 0; }
+    .notification-item {
+        background: rgba(25, 25, 35, 0.7); backdrop-filter: blur(10px);
+        border-radius: 12px; padding: 20px; margin-bottom: 15px;
+        display: flex; gap: 15px; align-items: flex-start;
+        border: 1px solid rgba(100, 100, 255, 0.15);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .notification-item:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(90, 70, 255, 0.2); }
+    .notification-item.new { border-left: 3px solid #8a2be2; }
+    .notification-icon {
+        width: 45px; height: 45px; border-radius: 50%; display: flex;
+        align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.2rem;
+    }
+    .notification-item.admin .notification-icon { background: linear-gradient(135deg, #8a2be2 0%, #4a00e0 100%); }
+    .notification-item.system .notification-icon { background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%); }
+    .notification-content { flex-grow: 1; }
+    .notification-header { margin-bottom: 8px; }
+    .notification-sender { font-weight: 600; font-size: 1.1rem; color: #f0f0f0; }
+    .notification-time { font-size: 0.8rem; color: #8a8a8a; margin-left: 10px; }
+    .notification-message { color: #c0c0c0; line-height: 1.6; }
+    .no-notifications {
+        text-align: center; padding: 50px 20px; background: rgba(25, 25, 35, 0.4);
+        border-radius: 12px; border: 1px dashed rgba(100, 100, 255, 0.2);
+    }
+    .no-notifications i { font-size: 3rem; color: #6a5af9; margin-bottom: 20px; opacity: 0.5; }
+    .no-notifications h3 { font-size: 1.5rem; margin-bottom: 15px; color: #f0f0f0; }
+    
+    @media (max-width: 600px) {
+        .header h1 { font-size: 2rem; }
+        .notifications-header { flex-direction: column; gap: 15px; align-items: stretch; }
+        .filter-options { justify-content: center; }
+        .notification-sender { font-size: 1rem; }
+        .notification-time { display: block; margin-left: 0; margin-top: 5px; }
+    }
+</style>
+{% endblock %}
+
+
+{% block content %}
+<div class="container">
+    <div class="header">
+        <h1>Notifications</h1>
+    </div>
+    
+    <div class="notifications-container">
+        <div class="notifications-header">
+            <h2>Recent Alerts</h2>
+            <div class="filter-options">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="admin">Admin</button>
+                <button class="filter-btn" data-filter="system">System</button>
+            </div>
+        </div>
+        
+        <ul class="notification-list">
+            {% if notifications %}
+                {% for notification in notifications %}
+                <li class="notification-item {{ notification.type }} {% if notification.is_new %}new{% endif %}">
+                    <div class="notification-icon">
+                        {% if notification.type == 'admin' %}
+                            <i class="fas fa-bullhorn"></i>
+                        {% elif notification.type == 'system' %}
+                            <i class="fas fa-info-circle"></i>
+                        {% else %}
+                             <i class="fas fa-bell"></i>
+                        {% endif %}
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-header">
+                            <span class="notification-sender">{{ notification.sender }}</span>
+                            <span class="notification-time">{{ notification.timestamp }}</span>
+                        </div>
+                        <p class="notification-message">{{ notification.message }}</p>
+                    </div>
+                </li>
+                {% endfor %}
+            {% else %}
+            <div class="no-notifications">
+                <i class="fas fa-bell-slash"></i>
+                <h3>All Caught Up!</h3>
+                <p>You have no new notifications right now.</p>
+            </div>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const notificationItems = document.querySelectorAll('.notification-item');
+
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+
+            const filter = this.getAttribute('data-filter');
+
+            notificationItems.forEach(item => {
+                // Using 'flex' because that's the display type of the item
+                if (filter === 'all' || item.classList.contains(filter)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    });
+});
+</script>
+{% endblock %}
